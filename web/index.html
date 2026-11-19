@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#17251f">
+  <title>COBOL to Python Workbench</title>
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="COBOL to Python Workbench home">
+      <span class="brand-mark" aria-hidden="true">C/P</span>
+      <span class="brand-name">Migration Workbench</span>
+    </a>
+    <div class="runtime"><span class="runtime-dot" aria-hidden="true"></span> Local runtime</div>
+  </header>
+
+  <main class="workspace">
+    <section class="workbench-heading" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow">SOURCE TRANSFORMATION</p>
+        <h1 id="page-title">COBOL <span aria-hidden="true">/</span> Python</h1>
+      </div>
+      <div class="heading-actions">
+        <label class="button button-quiet file-button" for="source-file">Open COBOL file</label>
+        <input id="source-file" class="visually-hidden" type="file" accept=".cbl,.cob,.cobol,.cpy,.txt">
+        <button id="load-arith-sample" class="button button-quiet" type="button">Load arithmetic sample</button>
+        <button id="load-counter-sample" class="button button-quiet" type="button">Load counter sample</button>
+        <button id="load-sample" class="button button-quiet" type="button">Load EMI sample</button>
+        <button id="convert" class="button button-primary" type="button">
+          <span aria-hidden="true">⇢</span> Convert
+        </button>
+      </div>
+    </section>
+
+    <div id="notice" class="notice" role="status" aria-live="polite"></div>
+
+    <section class="editor-grid" aria-label="Source and translated code">
+      <article class="editor-panel">
+        <header class="panel-header">
+          <div class="panel-language"><span class="language-dot cobol-dot"></span><h2>COBOL source</h2></div>
+          <span id="source-count" class="panel-meta">0 lines</span>
+        </header>
+        <div class="editor-body">
+          <div id="source-gutter" class="line-gutter" aria-hidden="true">1</div>
+          <label class="visually-hidden" for="cobol-source">COBOL source code</label>
+          <textarea id="cobol-source" class="code-editor" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="Paste COBOL source here or open a .cbl file" aria-describedby="source-count"></textarea>
+        </div>
+        <footer class="panel-footer"><span>COBOL</span><span>UTF-8</span></footer>
+      </article>
+
+      <article class="editor-panel python-panel">
+        <header class="panel-header">
+          <div class="panel-language"><span class="language-dot python-dot"></span><h2>Python output</h2></div>
+          <div class="panel-tools">
+            <button id="copy-python" class="text-action" type="button" disabled>Copy</button>
+            <button id="run-python" class="button button-run" type="button" disabled><span aria-hidden="true">▶</span> Run</button>
+          </div>
+        </header>
+        <div class="editor-body python-body">
+          <div id="python-gutter" class="line-gutter" aria-hidden="true">1</div>
+          <label class="visually-hidden" for="python-output">Translated Python code</label>
+          <textarea id="python-output" class="code-editor" spellcheck="false" readonly placeholder="Translated Python appears here" aria-describedby="python-status"></textarea>
+        </div>
+        <footer class="panel-footer"><span>PYTHON 3</span><span id="python-status">Awaiting translation</span></footer>
+      </article>
+    </section>
+
+    <section class="execution-panel" aria-label="Python execution">
+      <div class="execution-heading">
+        <div>
+          <p class="eyebrow">EXECUTION</p>
+          <h2>Run translated program</h2>
+        </div>
+        <span class="limit-label">5 second limit</span>
+      </div>
+      <div class="execution-grid">
+        <div class="input-column">
+          <label class="field-label" for="program-input">Program input <span>one line per ACCEPT</span></label>
+          <textarea id="program-input" class="input-editor" spellcheck="false" aria-label="Input lines passed to COBOL ACCEPT statements"></textarea>
+        </div>
+        <div class="output-column">
+          <div class="output-title"><span class="field-label">Program output</span><span id="run-status" class="run-status">Not run</span></div>
+          <pre id="program-output" class="terminal-output" role="log" aria-live="polite">Run the translated Python to see its output.</pre>
+        </div>
+      </div>
+    </section>
+
+    <footer class="workspace-footer">
+      <span>Unsupported COBOL is reported before code is generated.</span>
+      <span>Pure COBOL subset · DB2/CICS excluded</span>
+    </footer>
+  </main>
+  <script src="/app.js" defer></script>
+</body>
+</html>

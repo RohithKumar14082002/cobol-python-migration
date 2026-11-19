@@ -1,0 +1,6 @@
+[project]
+name = "cobol-python-migration"
+version = "0.1.0"
+description = "A tested Python translation of a COBOL loan EMI calculation"
+requires-python = ">=3.11"
+dependencies = []

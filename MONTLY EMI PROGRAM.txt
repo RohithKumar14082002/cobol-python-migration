@@ -1,0 +1,78 @@
+569.0466/0.1268
+= 4487.7692
+
+       IDENTIFICATION DIVISION.                         
+       PROGRAM-ID. EMIPGM2.                             
+       ENVIRONMENT DIVISION.                            
+       DATA DIVISION.                                   
+       WORKING-STORAGE SECTION.                         
+       01 CUSTOMER-ID            PIC X(6).              
+       01 CUSTOMER-NAME          PIC X(40).             
+       01 CUSTOMER-GENDER        PIC X(1).              
+       01 CUSTOMER-DOB           PIC 9(8).              
+       01 CUSTOMER-CONTACT       PIC X(10).             
+      *01 LAST-UPDATED           PIC X(20).             
+       01 LOAN-ID                PIC X(6).              
+       01 LOAN-AMOUNT            PIC 9(7)V99.           
+       01 TENURE                 PIC 9(2).              
+       01 INTEREST-RATE          PIC 9(3)V9999999999.   
+       01 EMI-AMOUNT             PIC 9(6)V99.           
+       01 A             PIC 9(6)V99.                    
+       01 B             PIC 9(6)V99.                    
+       01 C             PIC 9(6)V99.                    
+       01 D             PIC 9(6)V99.                    
+       01 MONTHLY-RATE           PIC 9(3)V9999999999.   
+       01 PRINCIPAL              PIC 9(7)V99.           
+       01 REMAINING-BALANCE      PIC 9(7)V99.           
+       01 INTEREST               PIC 9(3)V99.                           
+       01 MONTH                  PIC 99 VALUE 1.                        
+       01 WS-DATE-VALID          PIC X(1) VALUE "N".                    
+       PROCEDURE DIVISION.                                              
+            ACCEPT CUSTOMER-ID.                                         
+            DISPLAY "ENTER CUSTOMER ID (CXXXXXX): " CUSTOMER-ID.        
+            ACCEPT CUSTOMER-NAME.                                       
+            DISPLAY "ENTER CUSTOMER NAME: " CUSTOMER-NAME.              
+            ACCEPT CUSTOMER-GENDER.                                     
+            DISPLAY "ENTERGENDER (M/F): " CUSTOMER-GENDER.              
+            ACCEPT CUSTOMER-DOB.                                        
+            DISPLAY "ENTER DATE OF BIRTH (YYYYMMDD): " CUSTOMER-DOB.    
+            ACCEPT CUSTOMER-CONTACT.                                    
+            DISPLAY "ENTER CONTACT NUMBER (10 DIGITS): ".               
+      *     DISPLAY "ENTER LAST UPDATED : ".                            
+      *     ACCEPT LAST-UPDATED.                                        
+            ACCEPT LOAN-ID.                                             
+            DISPLAY "ENTER LOAN ID (LXXXXXX): " LOAN-ID.                
+            ACCEPT LOAN-AMOUNT.                                         
+            DISPLAY "ENTER LOAN AMOUNT: " LOAN-AMOUNT.                  
+            ACCEPT TENURE.                                              
+            DISPLAY "ENTER LOAN TENURE: " TENURE.                       
+            ACCEPT INTEREST-RATE.                                       
+            DISPLAY "ENTER ANNUAL INTEREST RATE: " INTEREST-RATE.       
+            MOVE INTEREST-RATE TO MONTHLY-RATE.                         
+            COMPUTE MONTHLY-RATE = INTEREST-RATE / 100 / 12.           
+            DISPLAY "CALCULATING RI..." MONTHLY-RATE.                  
+      *    COMPUTE EMI-AMOUNT = LOAN-AMOUNT * MONTHLY-RATE             
+           COMPUTE D = LOAN-AMOUNT * MONTHLY-RATE                      
+           DISPLAY D.                                                  
+           COMPUTE A = (1 + MONTHLY-RATE) ** TENURE                    
+           DISPLAY A.                                                  
+           COMPUTE B = ((1 + MONTHLY-RATE) ** TENURE - 1).             
+           DISPLAY B.                                                  
+           COMPUTE C = ( D * A ) / B                                   
+           MOVE C TO EMI-AMOUNT.                                       
+      *    (1 + MONTHLY-RATE) **                                       
+      *    TENURE / ((1 + MONTHLY-RATE) ** TENURE - 1).                
+           DISPLAY "EMI AMOUNT TO BE PAID MONTHLY: " EMI-AMOUNT.       
+           MOVE LOAN-AMOUNT TO REMAINING-BALANCE.                      
+           DISPLAY "AMORTIZATION SCHEDULE: ".                          
+           DISPLAY "MONTH | INTEREST PAID || REMAINING BALANCE " .     
+           PERFORM GENERATE-AMORTIZATION-SCHEDULE UNTIL MONTH > TENURE.
+           STOP RUN.                                                   
+        GENERATE-AMORTIZATION-SCHEDULE.                                
+           COMPUTE INTEREST = REMAINING-BALANCE * MONTHLY-RATE.        
+           DISPLAY INTEREST.                                           
+           COMPUTE PRINCIPAL = EMI-AMOUNT - INTEREST.                  
+           COMPUTE REMAINING-BALANCE = REMAINING-BALANCE - PRINCIPAL.  
+           DISPLAY MONTH " | " INTEREST " | " REMAINING-BALANCE " " .  
+           ADD 1 TO MONTH.            
+
